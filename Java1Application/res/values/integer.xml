@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<integer name="house">128</integer>
+	<integer name="trance">130</integer>
+	<integer name="jungle">174</integer>
+	<integer name="dubstep">140</integer>
+</resources>
