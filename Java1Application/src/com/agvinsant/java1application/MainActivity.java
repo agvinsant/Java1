@@ -1,3 +1,13 @@
+/*
+ *  project Java1Application
+ * 
+ * package com.agvinsant.java1application
+ * 
+ * @author Adam Vinsant
+ * 
+ * date Sep 11, 2013
+ * 
+ */
 package com.agvinsant.java1application;
 
 import android.os.Bundle;
@@ -11,7 +21,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 public class MainActivity extends Activity {
@@ -35,17 +44,17 @@ public class MainActivity extends Activity {
 		
 		// creating and setting the top text line
 		TextView topLine = new TextView(this);
-		topLine.setText("EDM Genre Information");
+		topLine.setText("Beats Per Minute");
 		ll.addView(topLine);
 		
 		// creating some space betwen text views
 		TextView blank  = new TextView(this);
-		blank.setText("");
+		blank.setText(" ");
 		ll.addView(blank);
 		
 		// creating the instruction line
 		TextView instructions = new TextView(this);
-		instructions.setText("Pick a genre from the list below to see information about this genre");
+		instructions.setText("Pick a genre from the list below to see it's BPM information.");
 		ll.addView(instructions);
 		
 		// creating an array adapter for the listview
@@ -67,17 +76,23 @@ public class MainActivity extends Activity {
 			public void onItemClick(AdapterView<?> parent, View view, int position,
 					long id) {
 				
-					// setting integer variables
-					int house = res.getInteger(R.integer.house);
+					// setting integer variables this would be used if using android resources.
+				/*	int house = res.getInteger(R.integer.house);
 					int trance = res.getInteger(R.integer.trance);
 					int jungle = res.getInteger(R.integer.jungle);
-					int dubstep = res.getInteger(R.integer.dubstep);
+					int dubstep = res.getInteger(R.integer.dubstep);*/
 				
 					String listText = genreList[position].toString();
 					
+					genreInfo.setText(JSON.readJSON(listText));
 				
 			}
 		});
+		
+		// creating some space betwen text views
+				TextView blank2  = new TextView(this);
+				blank2.setText(" ");
+				ll.addView(blank2);
 		
 		// genre results
 		genreInfo = new TextView(this);
