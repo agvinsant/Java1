@@ -42,7 +42,7 @@ public class WebClass {
 	}
 	
 	public static String getURLStringResponse(URL url){
-		String response = " ";
+		String response = "";
 		
 		try{
 			

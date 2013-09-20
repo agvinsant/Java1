@@ -1,4 +1,4 @@
-package com.agvinsant.java1application;
+package com.agvinsant.lib;
 
 import android.content.Context;
 import android.view.ViewGroup.LayoutParams;

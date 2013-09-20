@@ -18,6 +18,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.agvinsant.lib.BasicLayout;
 import com.agvinsant.lib.WebClass;
 
 import android.os.AsyncTask;
@@ -93,28 +94,28 @@ public class MainActivity extends Activity {
 
 		});
 		
-		// calling the getSongInfo function 
-		getSongInfo();
+		
 		
 		connectedView = new TextView(context);
 		
 		// Detecting network settings
-		connected = WebClass.getConnectionStatus(context);
-		if(connected){
-			
-			connectedView.setText("Network Connection: " + WebClass.getConnectionType(context)+"\n");
-		}
-		else{
-				connectedView.setText(" "+WebClass.getConnectionType(context)+"\n");
-		}
+				connected = WebClass.getConnectionStatus(context);
+				if(connected){
+					
+					connectedView.setText("Network Connection: " + WebClass.getConnectionType(context)+"\n");
+				}
+				else{
+						connectedView.setText(""+WebClass.getConnectionType(context)+"\n");
+				}
 
 				
-
+				// calling the getSongInfo function 
+				getSongInfo();
 		
 		// song length display
 		int songNum = res.getStringArray(R.array.songArray).length;
 		TextView tv = new TextView(context);
-		tv.setText("Check out one of the "+songNum+"songs on the album");
+		tv.setText("Check out one of the "+songNum+" songs on the album");
 		
 		//spinner adapter
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, songName);
