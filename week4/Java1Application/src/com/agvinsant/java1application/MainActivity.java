@@ -18,7 +18,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.agvinsant.lib.BasicLayout;
 import com.agvinsant.lib.WebClass;
 
 import android.os.AsyncTask;
@@ -29,12 +28,10 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -70,18 +67,14 @@ public class MainActivity extends Activity {
 		context = this;
 		res = getResources();
 		
-		// setting the linear layout
-		LinearLayout ll = new LinearLayout(this);
-		LinearLayout ml = BasicLayout.layoutWithButton(this, "Show Info");
-		ll.setOrientation(LinearLayout.VERTICAL);
-		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
-		ll.setLayoutParams(lp);
+		// setting the content view from layout xml 
+		setContentView(R.layout.form);
+		// setting the results view from the layout xml
+		jsonView = (TextView) findViewById(R.id.textView2);
+
 		
-		jsonView = new TextView(context);
-		jsonView.setLayoutParams(lp);
-		
-		// Creating button from BasicLayout class
-		Button mb = (Button) ml.findViewById(1);
+		// Creating button from from layout xml
+		Button mb = (Button) findViewById(R.id.button1);
 		mb.setOnClickListener(new View.OnClickListener() {
 
 			@Override
@@ -100,7 +93,8 @@ public class MainActivity extends Activity {
 		
 		
 		
-		connectedView = new TextView(context);
+		connectedView = (TextView) findViewById(R.id.textView1);
+		
 		
 		//Detecting network settings
 				connected = WebClass.getConnectionStatus(context);
@@ -128,10 +122,8 @@ public class MainActivity extends Activity {
 		spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 		
 		//creating the spinner
-		viewSpinner = new Spinner(context);
+		viewSpinner = (Spinner) findViewById(R.id.spinner1);
 		viewSpinner.setAdapter(spinnerAdapter);
-		lp = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-		viewSpinner.setLayoutParams(lp);
 		
 		//spinner onClick function
 		viewSpinner.setOnItemSelectedListener(new OnItemSelectedListener(){
@@ -150,21 +142,6 @@ public class MainActivity extends Activity {
 
 		});
 
-		
-		// setting different layout parts to the main layout
-		
-		ll.addView(connectedView);
-		ll.addView(viewSpinner);
-		ll.addView(ml);
-		ll.addView(jsonView);
-		
-		
-		// setting the content view
-		setContentView(ll);
-		
-		
-	
-				
 		
 	}
 
