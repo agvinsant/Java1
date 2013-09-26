@@ -53,6 +53,7 @@ public class MainActivity extends Activity {
 	String artistName;
 	String albumName;
 	String trackSite;
+	public static URL finalURL;
 
 	ArrayList<String> trackNameList = new ArrayList<String>();
 	ArrayList<String> artistNameList = new ArrayList<String>();
@@ -76,6 +77,9 @@ public class MainActivity extends Activity {
 		LayoutParams lp = new LayoutParams(LayoutParams.MATCH_PARENT,LayoutParams.MATCH_PARENT);
 		ll.setLayoutParams(lp);
 		
+		jsonView = new TextView(context);
+		jsonView.setLayoutParams(lp);
+		
 		// Creating button from BasicLayout class
 		Button mb = (Button) ml.findViewById(1);
 		mb.setOnClickListener(new View.OnClickListener() {
@@ -89,13 +93,13 @@ public class MainActivity extends Activity {
 				String alName = albumNameList.get(pos).toString();  
 				String tSite = trackSiteList.get(pos).toString();
 
+	
 				jsonView.setText("Song Name: " +tName+ "\r\n" + "Artist Name: " +arName+ "\r\n" +"Album Name: "+alName+ "\r\n" + "Song Website: " +tSite);
 			}
 
 		});
 		
-		// calling the getSongInfo function 
-		getSongInfo();
+		
 		
 		connectedView = new TextView(context);
 		
@@ -103,7 +107,11 @@ public class MainActivity extends Activity {
 				connected = WebClass.getConnectionStatus(context);
 				if(connected){
 					Log.i("Network Connection", WebClass.getConnectionType(context));
+					
 					connectedView.setText("Network Connection: " + WebClass.getConnectionType(context)+"\n");
+					
+					// calling the getSongInfo function 
+					getSongInfo();
 				}
 				else{
 						connectedView.setText(""+WebClass.getConnectionType(context)+"\n");
@@ -113,9 +121,8 @@ public class MainActivity extends Activity {
 		
 		// setting song array 
 		songName = res.getStringArray(R.array.songArray);
-		int songNum = res.getStringArray(R.array.songArray).length;
-		TextView tv = new TextView(context);
-		tv.setText("Check out one of the "+songNum+" songs on the album");
+		Log.i("songName", songName[0]);
+		
 		
 		//spinner adapter
 		ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(context, android.R.layout.simple_spinner_item, songName);
@@ -147,9 +154,8 @@ public class MainActivity extends Activity {
 		
 		// setting different layout parts to the main layout
 		ll.addView(ml);
-		ll.addView(tv);
 		ll.addView(viewSpinner);
-		//ll.addView(connectedView);
+		ll.addView(connectedView);
 		ll.addView(jsonView);
 		
 		
@@ -171,12 +177,17 @@ public class MainActivity extends Activity {
 	
 	//get URL
 	private void getSongInfo(){
-		String baseURL = "https://itunes.apple.com/search?term=groove+logic+logical+thinking";
-		URL finalURL;
+		
+		Log.i("getSongInfo", "hit function");
+		
+		String baseURL = "https://itunes.apple.com/search";
+		
 		try{
-			finalURL = new URL(baseURL);
+			finalURL = new URL(baseURL+"?term=groove+logic+logical+thinking");
 			songRequest sr = new songRequest();
 			sr.execute(finalURL);
+			
+			Log.i("getSongInfo", "hit function");
 		} catch (MalformedURLException e){
 			Log.e("BAD URL", "MALFORMED URL");
 			finalURL = null;
@@ -188,36 +199,43 @@ public class MainActivity extends Activity {
 		@Override
 		protected String doInBackground(URL... urls){
 			String response = "";
-			for(URL url: urls){
-				response = WebClass.getURLStringResponse(url);
-			}
-			return response;
+			
+				response = WebClass.getURLStringResponse(finalURL);
+				
+				Log.i("songRequest", response);
+				return response;
+			
+			
 		}
 		
 		//get data and add to arrays.
 		@Override
 		protected void onPostExecute(String result){
-			Log.i("URL Response", result);
+			Log.i("URL RESPONSE", result);
 			
 	try {
 					
+					Log.i("TRYING JSON", "trying json");
+					//JSONObject json = new JSONObject(result);
+					//JSONObject results = jsonObject.getJSONObject("results");
 					
-			//JSONObject json = new JSONObject(result);
-			//JSONObject results = json.getJSONObject("results");
-				
-					
-					
-					// from week 3
-					JSONArray jsonArray = new JSONArray(result);
+					JSONObject mainJSON = new JSONObject(result);
 		
-					int n = jsonArray.length();
-					for(int i = 0;i<n; i++){
-						JSONObject jsonObject = jsonArray.getJSONObject(i);
-		
-						trackName = jsonObject.getString("trackName");
-						artistName= jsonObject.getString("artistName");
-						albumName = jsonObject.getString("collectionName");
-						trackSite= jsonObject.getString("trackViewUrl");
+					JSONArray jsonResult = mainJSON.getJSONArray("results");
+						
+					int n = jsonResult.length();
+					for (int i = 0; i<n; i++ ){	
+						
+						JSONObject child = jsonResult.getJSONObject(i);
+												
+						trackName = child.getString("trackName");
+						Log.i("trackName", trackName);
+						artistName= child.getString("artistName");
+						Log.i("artistName", artistName);
+						albumName = child.getString("collectionName");
+						Log.i("albumName", albumName);
+						trackSite= child.getString("trackViewUrl");
+						Log.i("trackSite", trackSite);
 						trackNameList.add(trackName);
 						artistNameList.add(artistName);
 						albumNameList.add(albumName);  
@@ -225,7 +243,7 @@ public class MainActivity extends Activity {
 					}
 		
 				} catch (JSONException e) {
-					// TODO Auto-generated catch block
+					Log.e("JSONException", "ERROR", e);
 					e.printStackTrace();
 				}
 		}	

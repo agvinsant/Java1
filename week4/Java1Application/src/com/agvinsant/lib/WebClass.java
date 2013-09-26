@@ -43,7 +43,7 @@
 		
 		public static String getURLStringResponse(URL url){
 			String response = "";
-			
+			Log.i("testing getURLString", "getURLStringResponse");
 			try{
 				
 				URLConnection conn = url.openConnection();
@@ -58,6 +58,7 @@
 					response = new String(contentBytes,0,bytesRead);
 					responseBuffer.append(response);
 				}
+				Log.i("responseBuffertoString", responseBuffer.toString());
 				return responseBuffer.toString();
 			}
 			catch(Exception e){
