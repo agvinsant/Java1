@@ -88,13 +88,12 @@ public class MainActivity extends Activity {
 			public void onClick(View v) {
 				// Get selected song info
 				int pos = viewSpinner.getSelectedItemPosition();
-				String tName = trackNameList.get(pos).toString();
 				String arName = artistNameList.get(pos).toString();
 				String alName = albumNameList.get(pos).toString();  
 				String tSite = trackSiteList.get(pos).toString();
 
 	
-				jsonView.setText("Song Name: " +tName+ "\r\n" + "Artist Name: " +arName+ "\r\n" +"Album Name: "+alName+ "\r\n" + "Song Website: " +tSite);
+				jsonView.setText("Artist Name: " +arName+ "\r\n" +"Album Name: "+alName+ "\r\n" + "Song Website: " +tSite);
 			}
 
 		});
@@ -153,9 +152,10 @@ public class MainActivity extends Activity {
 
 		
 		// setting different layout parts to the main layout
-		ll.addView(ml);
-		ll.addView(viewSpinner);
+		
 		ll.addView(connectedView);
+		ll.addView(viewSpinner);
+		ll.addView(ml);
 		ll.addView(jsonView);
 		
 		
@@ -228,8 +228,6 @@ public class MainActivity extends Activity {
 						
 						JSONObject child = jsonResult.getJSONObject(i);
 												
-						trackName = child.getString("trackName");
-						Log.i("trackName", trackName);
 						artistName= child.getString("artistName");
 						Log.i("artistName", artistName);
 						albumName = child.getString("collectionName");
