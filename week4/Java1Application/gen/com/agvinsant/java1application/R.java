@@ -25,13 +25,18 @@ public final class R {
     }
     public static final class drawable {
         public static final int ic_launcher=0x7f020000;
+        public static final int logicalthinkingcoverfront=0x7f020001;
     }
     public static final class id {
-        public static final int action_settings=0x7f090004;
-        public static final int button1=0x7f090002;
-        public static final int spinner1=0x7f090001;
-        public static final int textView1=0x7f090000;
-        public static final int textView2=0x7f090003;
+        public static final int action_settings=0x7f090008;
+        public static final int button1=0x7f090003;
+        public static final int button2=0x7f090006;
+        public static final int connectionView=0x7f090000;
+        public static final int headView=0x7f090001;
+        public static final int imageView=0x7f090005;
+        public static final int infoView=0x7f090004;
+        public static final int spinner1=0x7f090002;
+        public static final int webView=0x7f090007;
     }
     public static final class layout {
         public static final int form=0x7f030000;
@@ -43,8 +48,9 @@ public final class R {
         public static final int action_settings=0x7f050001;
         public static final int app_name=0x7f050000;
         public static final int hello_world=0x7f050002;
-        public static final int jsonView=0x7f050005;
-        public static final int networkConn=0x7f050004;
+        public static final int jsonView=0x7f050006;
+        public static final int listenNow=0x7f050004;
+        public static final int networkConn=0x7f050005;
         public static final int show_song_info=0x7f050003;
     }
     public static final class style {
@@ -74,5 +80,8 @@ public final class R {
  All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070001;
+        public static final int buttonStyle=0x7f070002;
+        public static final int textStyle=0x7f070003;
+        public static final int webStyle=0x7f070004;
     }
 }

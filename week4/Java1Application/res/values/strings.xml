@@ -5,6 +5,7 @@
     <string name="action_settings">Settings</string>
     <string name="hello_world">Hello world!</string>
     <string name="show_song_info">Show Song Info</string>
+    <string name="listenNow">Listen Now</string>
     <string name="networkConn"></string>
     <string name="jsonView"></string>
     <string-array name="songArray">

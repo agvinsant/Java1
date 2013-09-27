@@ -28,13 +28,15 @@ import android.content.res.Resources;
 import android.util.Log;
 import android.view.Menu;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+//import android.widget.Toast;
 
 
 public class MainActivity extends Activity {
@@ -46,16 +48,17 @@ public class MainActivity extends Activity {
 	Spinner viewSpinner;
 	TextView jsonView;
 	TextView connectedView;
-	String trackName;
+	String trackPreview;
 	String artistName;
 	String albumName;
 	String trackSite;
 	public static URL finalURL;
 
-	ArrayList<String> trackNameList = new ArrayList<String>();
+	
 	ArrayList<String> artistNameList = new ArrayList<String>();
 	ArrayList<String> albumNameList = new ArrayList<String>();
 	ArrayList<String> trackSiteList = new ArrayList<String>();
+	ArrayList<String> trackPreviewList = new ArrayList<String>();
 	
 	Boolean connected = false;
 	
@@ -70,7 +73,7 @@ public class MainActivity extends Activity {
 		// setting the content view from layout xml 
 		setContentView(R.layout.form);
 		// setting the results view from the layout xml
-		jsonView = (TextView) findViewById(R.id.textView2);
+		jsonView = (TextView) findViewById(R.id.infoView);
 
 		
 		// Creating button from from layout xml
@@ -84,17 +87,39 @@ public class MainActivity extends Activity {
 				String arName = artistNameList.get(pos).toString();
 				String alName = albumNameList.get(pos).toString();  
 				String tSite = trackSiteList.get(pos).toString();
+				//String tPreview = trackPreviewList.get(pos);
 
 	
-				jsonView.setText("Artist Name: " +arName+ "\r\n" +"Album Name: "+alName+ "\r\n" + "Song Website: " +tSite);
+				jsonView.setText("Artist Name:   " +arName+ "\r\n"+ "\r\n"+"Album Name:   "+alName+ "\r\n" +"\r\n"+ "Song Website:   " +tSite);
+				
+				ImageView image = (ImageView) findViewById(R.id.imageView);
+				image.setImageResource(R.drawable.logicalthinkingcoverfront);
+				
+				
+				
 			}
 
 		});
 		
 		
+		// button to switch to webView in Chrome
+		Button webButton = (Button) findViewById(R.id.button2);
+		webButton.setOnClickListener(new View.OnClickListener() {
+
+			@Override
+			public void onClick(View v) {
+				
+				WebView webView = (WebView) findViewById(R.id.webView);
+				webView.loadUrl("https://soundcloud.com/groove-logic/sets/logical-thinking-ep-teaser/s-7KILb");
+			}
+
+		});
 		
-		connectedView = (TextView) findViewById(R.id.textView1);
 		
+		connectedView = (TextView) findViewById(R.id.connectionView);
+		
+		TextView headView = (TextView) findViewById(R.id.headView);
+		headView.setText("Select a song from the list to see the info");
 		
 		//Detecting network settings
 				connected = WebClass.getConnectionStatus(context);
@@ -131,7 +156,7 @@ public class MainActivity extends Activity {
 			@Override
 			public void onItemSelected(AdapterView<?> parent, View view,
 					int position, long id) {
-				Toast.makeText(context, "You selected " + songName[position], Toast.LENGTH_LONG).show();
+				//Toast.makeText(context, "You selected " + songName[position], Toast.LENGTH_LONG).show();
 			}
 
 			@Override
@@ -141,8 +166,18 @@ public class MainActivity extends Activity {
 			}
 
 		});
+		
+		
 
 		
+	}
+	
+	protected boolean selectionAvailable(int selection) {
+		if(artistNameList == null || artistNameList.size() < (selection + 1))return false;
+		if(albumNameList == null || albumNameList.size() < (selection + 1))return false;
+		if(trackSiteList == null || trackSiteList.size() < (selection + 1))return false;
+
+		return true;
 	}
 
 	@Override
@@ -211,10 +246,11 @@ public class MainActivity extends Activity {
 						Log.i("albumName", albumName);
 						trackSite= child.getString("trackViewUrl");
 						Log.i("trackSite", trackSite);
-						trackNameList.add(trackName);
+						trackPreview = child.getString("previewUrl");
 						artistNameList.add(artistName);
 						albumNameList.add(albumName);  
 						trackSiteList.add(trackSite);
+						trackPreviewList.add(trackPreview);
 					}
 		
 				} catch (JSONException e) {
