@@ -87,11 +87,12 @@ public class MainActivity extends Activity {
 				String arName = artistNameList.get(pos).toString();
 				String alName = albumNameList.get(pos).toString();  
 				String tSite = trackSiteList.get(pos).toString();
-				//String tPreview = trackPreviewList.get(pos);
+			
 
-	
+				// Setting the data result view
 				jsonView.setText("Artist Name:   " +arName+ "\r\n"+ "\r\n"+"Album Name:   "+alName+ "\r\n" +"\r\n"+ "Song Website:   " +tSite);
 				
+				// creating and setting the image view with an image from the res folder
 				ImageView image = (ImageView) findViewById(R.id.imageView);
 				image.setImageResource(R.drawable.logicalthinkingcoverfront);
 				
@@ -109,15 +110,17 @@ public class MainActivity extends Activity {
 			@Override
 			public void onClick(View v) {
 				
+				// creating the webview and setting the URL
 				WebView webView = (WebView) findViewById(R.id.webView);
 				webView.loadUrl("https://soundcloud.com/groove-logic/sets/logical-thinking-ep-teaser/s-7KILb");
 			}
 
 		});
 		
-		
+		// setting the connection view text showing what type of connection the device is using
 		connectedView = (TextView) findViewById(R.id.connectionView);
 		
+		// setting head text 
 		TextView headView = (TextView) findViewById(R.id.headView);
 		headView.setText("Select a song from the list to see the info");
 		
@@ -228,18 +231,17 @@ public class MainActivity extends Activity {
 	try {
 					
 					Log.i("TRYING JSON", "trying json");
-					//JSONObject json = new JSONObject(result);
-					//JSONObject results = jsonObject.getJSONObject("results");
 					
+					// setting the main JSON object
 					JSONObject mainJSON = new JSONObject(result);
-		
+					// drilling down into the results object which is an array in this case
 					JSONArray jsonResult = mainJSON.getJSONArray("results");
 						
 					int n = jsonResult.length();
 					for (int i = 0; i<n; i++ ){	
-						
+						// setting the child objects in the array
 						JSONObject child = jsonResult.getJSONObject(i);
-												
+						// setting the variables 						
 						artistName= child.getString("artistName");
 						Log.i("artistName", artistName);
 						albumName = child.getString("collectionName");
@@ -247,6 +249,7 @@ public class MainActivity extends Activity {
 						trackSite= child.getString("trackViewUrl");
 						Log.i("trackSite", trackSite);
 						trackPreview = child.getString("previewUrl");
+						// setting the array lists and populating them with the item variables. 
 						artistNameList.add(artistName);
 						albumNameList.add(albumName);  
 						trackSiteList.add(trackSite);
